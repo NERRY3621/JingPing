@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">净屏</string>
+    <string name="app_subtitle">开屏 · 摇一摇广告拦截</string>
+    <string name="brand_overline">RHINE LAB / AD GUARD</string>
+    <string name="version_label">v1.3.0</string>
+
+    <string name="section_status">01  运行状态</string>
+    <string name="guide_entry_title">使用教程</string>
+    <string name="guide_entry_desc">第一次使用？按步骤完成无障碍、净化与后台配置</string>
+    <string name="guide_view">查看</string>
+    <string name="section_protection">02  防护开关</string>
+    <string name="section_scope">03  生效范围</string>
+    <string name="section_clean">04  深度净化</string>
+    <string name="section_test">05  自检</string>
+    <string name="section_log">06  运行日志</string>
+
+    <string name="status_access">无障碍服务</string>
+    <string name="status_shizuku">Shizuku</string>
+    <string name="status_root">Root</string>
+    <string name="status_lsposed">LSPosed</string>
+
+    <string name="access_detail_off">开启后才能识别并点击「跳过」</string>
+    <string name="access_detail_on">正在监视前台窗口，识别开屏广告</string>
+    <string name="access_detail_enabled">已勾选，等待系统连接服务</string>
+    <string name="access_detail_auto">可通过 Root / Shizuku 一键开启</string>
+
+    <string name="shizuku_detail_off">未运行：启动 Shizuku 后可用于免 Root 授权</string>
+    <string name="shizuku_detail_no_perm">服务已连接，等待授权</string>
+    <string name="shizuku_detail_ok">已授权，可执行 pm / settings 命令</string>
+    <string name="shizuku_detail_missing">未安装 Shizuku</string>
+
+    <string name="root_detail_checking">正在检测 su…</string>
+    <string name="root_detail_ok">su 可用，可执行系统命令</string>
+    <string name="root_detail_no">未获得 Root 授权（可改用 Shizuku）</string>
+
+    <string name="lsposed_detail_ok">已安装。在 LSPosed 中启用本模块并勾选应用后，可拦截广告 SDK 的摇一摇传感器与跳转</string>
+    <string name="lsposed_detail_missing">未安装 LSPosed；摇一摇拦截将退化为「跳转拦截」</string>
+
+    <string name="switch_enabled_title">开屏广告自动跳过</string>
+    <string name="switch_enabled_desc">总开关。关闭后不扫描、不点击</string>
+    <string name="switch_click_title">自动点击「跳过」</string>
+    <string name="switch_click_desc">按文字 / 控件 ID 查找跳过按钮，支持手势点击</string>
+    <string name="switch_back_title">广告页自动返回</string>
+    <string name="switch_back_desc">开屏广告页停留时按一次返回键</string>
+    <string name="switch_jump_title">摇一摇跳转拦截</string>
+    <string name="switch_jump_desc">实验性：广告页跳转淘宝 / 京东等外部 App 时立即返回</string>
+    <string name="guard_title">后台守护（可选）</string>
+    <string name="guard_desc_off">前台服务保活 + 开机自启；不开也能只用 LSPosed 模块</string>
+    <string name="guard_desc_on">已开启，等待服务启动</string>
+    <string name="guard_desc_running">前台服务运行中，通知栏常驻</string>
+    <string name="guard_channel">后台守护</string>
+    <string name="guard_notif_title">净屏后台守护中</string>
+    <string name="guard_notif_text_on">开屏跳过已就绪，点击打开</string>
+    <string name="guard_notif_text_off">防护已暂停，点击打开</string>
+    <string name="guard_action_pause">暂停</string>
+    <string name="guard_action_resume">恢复</string>
+    <string name="guard_action_stop">停止守护</string>
+    <string name="guard_dialog_title">让净屏稳定驻留后台</string>
+    <string name="guard_dialog_msg">后台守护使用前台服务保活，并在开机后自动恢复。\n\n部分系统（Nubia / 小米 / 华为等）还需要：\n1. 允许自启动\n2. 电池优化设为「不限制」\n3. 最近任务里锁定净屏\n\n如果你不想让 App 常驻后台，可以关闭此开关，只使用 LSPosed 模块。</string>
+    <string name="guard_battery">省电设置</string>
+    <string name="guard_app_settings">应用设置</string>
+    <string name="guard_later">稍后</string>
+    <string name="guard_started">后台守护已开启</string>
+    <string name="guard_stopped">后台守护已关闭</string>
+    <string name="guard_start_failed">后台守护启动失败</string>
+    <string name="guard_whitelist_ok">已加入系统省电白名单</string>
+
+    <string name="scope_all">全部应用</string>
+    <string name="scope_selected">已选 %1$d 个应用</string>
+    <string name="scope_none">未选择应用</string>
+    <string name="scope_detail_all">自动跳过对全部应用生效；深度净化只处理下方勾选的应用</string>
+    <string name="scope_detail_selected">仅对勾选应用自动跳过；深度净化同样只处理这些应用</string>
+    <string name="scope_manage">管理</string>
+
+    <string name="clean_desc">通过 Root / Shizuku 禁用所选应用内的广告 SDK Activity（如 B 站 HotSplashActivity）。不修改安装包，可随时恢复。</string>
+    <string name="clean_scan">扫描组件</string>
+    <string name="clean_do">一键净化</string>
+    <string name="clean_restore">恢复</string>
+    <string name="clean_idle">尚未扫描</string>
+    <string name="clean_need_priv">需要 Root 或 Shizuku 权限</string>
+
+    <string name="test_title">测试开屏拦截</string>
+    <string name="test_desc">打开一个模拟开屏广告，验证引擎能否自动点击「跳过」</string>
+    <string name="test_start">开始测试</string>
+
+    <string name="log_clear">清空</string>
+    <string name="log_empty">暂无日志</string>
+
+    <string name="accessibility_label">净屏 · 开屏广告跳过</string>
+    <string name="accessibility_desc">识别前台应用的开屏广告并自动点击「跳过」；同时可拦截广告引起的异常外部跳转。不读取账号、聊天等隐私内容。</string>
+
+    <string name="dialog_welcome_title">欢迎使用净屏</string>
+    <string name="dialog_welcome_msg">1. 开启「无障碍服务」——这是自动点击跳过按钮的基础。\n2. 按需在「生效范围」里勾选应用。\n3. 有 Root / Shizuku 时，可用「深度净化」直接禁用广告 SDK 的 Activity。\n4. 装有 LSPosed 时，在 LSPosed 里启用「净屏」并勾选应用，可拦截广告 SDK 的摇一摇传感器注册与跳转。\n\n所有规则只在本机运行，不联网、不上传数据。</string>
+    <string name="dialog_ok">知道了</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_save">保存</string>
+
+    <string name="toast_no_priv">需要 Root 或 Shizuku，且已授权</string>
+    <string name="toast_shizuku_missing">未安装 Shizuku</string>
+    <string name="toast_shizuku_not_running">Shizuku 未运行，请先启动 Shizuku 服务</string>
+    <string name="toast_request_sent">已发送 Shizuku 授权请求，请在弹出的对话框中允许</string>
+    <string name="toast_access_opened">已尝试开启无障碍服务</string>
+    <string name="toast_manual_settings">请在下个页面找到「净屏」并开启</string>
+    <string name="toast_lsposed_missing">未安装 LSPosed</string>
+    <string name="toast_scope_empty">请先勾选至少一个应用</string>
+    <string name="toast_cleaned">已禁用 %1$d 个广告组件</string>
+    <string name="toast_restored">已恢复 %1$d 个组件</string>
+    <string name="toast_nothing">没有发现可处理的广告组件</string>
+
+    <string name="test_ad_tag">广告</string>
+    <string name="test_ad_skip">跳过 5</string>
+    <string name="test_ad_title">模拟开屏广告</string>
+    <string name="test_ad_sub">这是净屏的拦截测试页，不是真实广告</string>
+    <string name="test_ad_brand">JINGPING TEST</string>
+    <string name="test_ad_tip">右下角是「跳过」按钮。若无障碍服务已开启，它会自动被点击。</string>
+    <string name="test_ad_done">✅ 已跳过，拦截生效</string>
+    <string name="test_ad_closed">广告已结束</string>
+    <string name="test_ad_close">关闭测试页</string>
+</resources>

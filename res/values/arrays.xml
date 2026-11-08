@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LSPosed 推荐作用域：安装后可在 LSPosed 管理器中一键勾选 -->
+    <string-array name="xposed_scope">
+        <item>tv.danmaku.bili</item>
+        <item>com.zhihu.android</item>
+        <item>com.sina.weibo</item>
+        <item>com.xingin.xhs</item>
+        <item>com.ss.android.ugc.aweme</item>
+        <item>com.smile.gifmaker</item>
+        <item>com.taobao.taobao</item>
+        <item>com.jingdong.app.mall</item>
+        <item>com.xunmeng.pinduoduo</item>
+        <item>com.sankuai.meituan</item>
+        <item>com.dianping.v1</item>
+        <item>com.tencent.qqlive</item>
+        <item>com.qiyi.video</item>
+        <item>com.youku.phone</item>
+        <item>com.netease.cloudmusic</item>
+        <item>com.tencent.qqmusic</item>
+        <item>com.baidu.searchbox</item>
+        <item>com.autonavi.minimap</item>
+    </string-array>
+</resources>
