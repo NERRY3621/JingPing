@@ -29,6 +29,15 @@ Rhine Lab / 明日方舟相关权利归鹰角网络；本项目为非官方、�
 
 ---
 
+## 下载
+
+- [GitHub Releases · 最新 APK](https://github.com/NERRY3621/JingPing/releases/latest)
+- 仓库源码：`https://github.com/NERRY3621/JingPing`
+
+Release 中的 APK 使用本地测试签名；如需长期升级，请用自己的 keystore 重新构建。
+
+---
+
 ## 1. 功能
 
 ### 内置图文教程（1.2.0 新增）
