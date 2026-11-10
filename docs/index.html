@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>净屏 JingPing · 开屏与摇一摇广告拦截</title>
+<meta name="description" content="净屏：不修改 APK 的 Android 开屏广告 / 摇一摇广告拦截工具。无障碍自动跳过、Root/Shizuku 深度净化、LSPosed 传感器拦截，完全本地运行。">
+<meta property="og:title" content="净屏 JingPing · 开屏与摇一摇广告拦截">
+<meta property="og:description" content="不修改 APK，三种方式拦截开屏与摇一摇广告。Android 8.0+，完全本地运行。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nerry3621.github.io/JingPing/">
+<meta property="og:image" content="https://nerry3621.github.io/JingPing/screenshots/main.png">
+<link rel="icon" href="screenshots/main.png">
+<style>
+  :root{
+    --paper:#EAE5E1;
+    --panel:#F3F0E8;
+    --panel-2:#E7E1D5;
+    --ink:#171713;
+    --muted:#6F6A5E;
+    --dim:#989184;
+    --line:#C9C2B4;
+    --line-soft:#D9D2C5;
+    --amber:#A67D48;
+    --amber-soft:#DCC9AA;
+    --olive:#5D7048;
+    --max:1120px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(rgba(201,194,180,.28) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,194,180,.28) 1px, transparent 1px);
+    background-size:64px 64px;
+    font-family:"MiSans","PingFang SC","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+  .amber{color:var(--amber)}
+  .muted{color:var(--muted)}
+
+  /* top bar */
+  .top{
+    border-bottom:1px solid var(--line);
+    background:rgba(234,229,225,.88);
+    backdrop-filter:blur(10px);
+    position:sticky;top:0;z-index:20;
+  }
+  .top-inner{display:flex;align-items:center;gap:20px;height:72px}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand svg{width:74px;height:36px;flex:none;color:var(--ink)}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15}
+  .brand-text b{font-size:18px;letter-spacing:.08em;font-weight:600}
+  .brand-text span{font-size:9px;letter-spacing:.22em;color:var(--amber);font-family:monospace}
+  .nav{margin-left:auto;display:flex;align-items:center;gap:22px;font-size:13px;color:var(--muted)}
+  .nav a:hover{color:var(--ink)}
+  .nav .btn-small{
+    border:1px solid var(--ink);color:var(--ink);
+    padding:9px 14px;border-radius:2px;font-weight:600;background:transparent;
+  }
+  .nav .btn-small:hover{background:var(--ink);color:var(--paper)}
+
+  /* hero */
+  .hero{padding:72px 0 40px}
+  .hero-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:56px;align-items:center}
+  .eyebrow{font-family:monospace;font-size:11px;letter-spacing:.22em;color:var(--amber);margin-bottom:18px}
+  h1{font-size:clamp(38px,5.8vw,68px);line-height:1.06;letter-spacing:-.03em;margin:0 0 22px;font-weight:650}
+  h1 em{font-style:normal;color:var(--amber)}
+  .lead{font-size:15px;line-height:1.9;color:var(--muted);max-width:560px;margin:0 0 28px}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:14px 22px;border-radius:2px;border:1px solid var(--ink);
+    font-size:14px;font-weight:600;transition:.18s ease;cursor:pointer;
+  }
+  .btn-primary{background:var(--ink);color:var(--paper)}
+  .btn-primary:hover{background:#2B2B24;transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink)}
+  .btn-ghost:hover{background:var(--panel)}
+  .btn .arrow{font-family:monospace}
+  .meta{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    border:1px solid var(--line);background:rgba(243,240,232,.6);
+    padding:6px 10px;border-radius:2px;font-family:monospace;font-size:10px;letter-spacing:.08em;color:var(--muted)
+  }
+  .shot-frame{
+    position:relative;border:1px solid var(--ink);background:var(--panel);
+    padding:10px;box-shadow:14px 14px 0 rgba(166,125,72,.16);
+  }
+  .shot-frame::before,.shot-frame::after{
+    content:"";position:absolute;width:18px;height:18px;border:1px solid var(--amber);
+  }
+  .shot-frame::before{left:-6px;top:-6px;border-right:0;border-bottom:0}
+  .shot-frame::after{right:-6px;bottom:-6px;border-left:0;border-top:0}
+  .shot-frame img{width:100%;height:560px;object-fit:cover;object-position:top;border:1px solid var(--line-soft)}
+  .shot-caption{display:flex;justify-content:space-between;gap:10px;margin-top:9px;font-family:monospace;font-size:9px;color:var(--muted);letter-spacing:.08em}
+
+  /* stats */
+  .stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:54px}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:22px 24px;border-left:1px solid var(--line)}
+  .stat:first-child{border-left:0;padding-left:0}
+  .stat b{display:block;font-family:monospace;font-size:24px;letter-spacing:-.02em}
+  .stat span{display:block;margin-top:4px;font-size:11px;color:var(--muted)}
+
+  /* section */
+  section{padding:78px 0 0}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:26px}
+  .section-kicker{font-family:monospace;font-size:10px;letter-spacing:.22em;color:var(--amber);margin-bottom:8px}
+  .section-head h2{font-size:clamp(26px,3vw,38px);letter-spacing:-.02em;margin:0;font-weight:600}
+  .section-head p{margin:0;max-width:430px;color:var(--muted);font-size:12.5px;line-height:1.7}
+
+  /* feature grid */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .feature{
+    background:var(--panel);border:1px solid var(--line);padding:24px 22px 22px;
+    position:relative;min-height:190px;transition:.18s ease;
+  }
+  .feature:hover{border-color:var(--amber);transform:translateY(-2px)}
+  .feature .idx{font-family:monospace;font-size:10px;color:var(--amber);letter-spacing:.14em}
+  .feature h3{font-size:16px;margin:16px 0 10px;font-weight:600}
+  .feature p{font-size:12.5px;line-height:1.8;color:var(--muted);margin:0}
+  .feature .tag{position:absolute;right:16px;top:18px;font-family:monospace;font-size:9px;color:var(--dim);letter-spacing:.1em}
+
+  /* screenshots */
+  .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .shot{background:var(--panel);border:1px solid var(--line);padding:8px}
+  .shot img{width:100%;height:420px;object-fit:cover;object-position:top;border:1px solid var(--line-soft)}
+  .shot .cap{display:flex;justify-content:space-between;padding:8px 2px 0;font-family:monospace;font-size:9px;color:var(--muted)}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);background:var(--panel)}
+  .step{padding:28px 26px;border-left:1px solid var(--line)}
+  .step:first-child{border-left:0}
+  .step .n{width:26px;height:26px;border:1px solid var(--amber);background:var(--amber-soft);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px}
+  .step h3{font-size:16px;margin:18px 0 8px}
+  .step p{font-size:12.5px;line-height:1.8;color:var(--muted);margin:0}
+  .step code{background:var(--panel-2);border:1px solid var(--line-soft);padding:1px 5px;font-size:11px}
+
+  /* callout */
+  .callout{margin-top:16px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:26px 28px;display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:center}
+  .callout .kicker{font-family:monospace;font-size:10px;letter-spacing:.2em;color:var(--amber-soft)}
+  .callout h3{font-size:20px;margin:8px 0 8px;letter-spacing:-.02em}
+  .callout p{font-size:12.5px;line-height:1.8;color:#C9C2B4;margin:0}
+  .codebox{font-family:monospace;font-size:10.5px;line-height:1.7;color:#EAE5E1;background:#24221F;border:1px solid #4A463C;padding:14px;word-break:break-all}
+
+  /* modes */
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .mode{background:var(--panel);border:1px solid var(--line);padding:26px}
+  .mode .label{font-family:monospace;font-size:10px;letter-spacing:.16em;color:var(--amber)}
+  .mode h3{font-size:18px;margin:10px 0 14px}
+  .mode ul{margin:0;padding-left:16px;color:var(--muted);font-size:12.5px;line-height:2}
+  .mode li::marker{color:var(--amber)}
+
+  /* two col */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .note{background:var(--panel);border:1px solid var(--line);padding:26px}
+  .note h3{font-size:15px;margin:0 0 12px}
+  .note ul{margin:0;padding-left:16px;color:var(--muted);font-size:12.5px;line-height:1.95}
+  .note li::marker{color:var(--amber)}
+
+  /* faq */
+  details{border-bottom:1px solid var(--line);padding:16px 0}
+  details summary{cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";font-family:monospace;color:var(--amber)}
+  details[open] summary::after{content:"–"}
+  details p{color:var(--muted);font-size:12.5px;line-height:1.9;margin:10px 0 0;max-width:820px}
+
+  /* footer */
+  footer{margin-top:84px;border-top:1px solid var(--line);padding:30px 0 46px;background:rgba(243,240,232,.55)}
+  .foot{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:space-between}
+  .foot .brand svg{width:60px;height:30px}
+  .foot p{font-size:11px;line-height:1.9;color:var(--muted);margin:0;max-width:640px}
+  .foot .links{display:flex;gap:18px;font-size:12px;color:var(--muted)}
+  .foot .links a:hover{color:var(--ink)}
+  .disclaimer{font-size:10px;color:var(--dim);line-height:1.8;margin-top:18px;max-width:900px}
+
+  @media (max-width:960px){
+    .hero-grid{grid-template-columns:1fr;gap:34px}
+    .shot-frame{max-width:520px}
+    .shot-frame img{height:480px}
+    .features{grid-template-columns:1fr 1fr}
+    .shots{grid-template-columns:1fr 1fr}
+    .shot:last-child{display:none}
+    .steps{grid-template-columns:1fr}
+    .step{border-left:0;border-top:1px solid var(--line)}
+    .step:first-child{border-top:0}
+    .callout{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px}
+    .top-inner{height:64px;gap:10px}
+    .brand svg{width:58px;height:28px}
+    .brand-text b{font-size:16px}
+    .nav{gap:12px}
+    .nav a:not(.btn-small){display:none}
+    .hero{padding:44px 0 24px}
+    h1{font-size:40px}
+    .lead{font-size:14px}
+    .stats-grid{grid-template-columns:1fr 1fr}
+    .stat{padding:18px 16px}
+    .stat:nth-child(3){border-left:0;padding-left:0}
+    .stat:nth-child(3),.stat:nth-child(4){border-top:1px solid var(--line)}
+    .features{grid-template-columns:1fr}
+    .feature{min-height:0}
+    .shots{grid-template-columns:1fr}
+    .shot:last-child{display:block}
+    .shot img{height:420px}
+    .modes{grid-template-columns:1fr}
+    .two-col{grid-template-columns:1fr}
+    .section-head{display:block}
+    .section-head p{margin-top:10px}
+    .shot-frame img{height:420px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="#" aria-label="净屏 JingPing">
+      <svg viewBox="0 0 310 145" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="26">
+          <path d="M156,75 C127,48 103,15 70,15 C37,15 15,39 15,70 S38,128 70,128 C103,128 127,96 176,52"/>
+          <path d="M155,75 C182,99 208,128 240,128 C273,128 295,105 295,73 S273,15 240,15 C221,15 207,23 192,38"/>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="15">
+          <path d="M44,70 L94,70 M69,45 L69,95 M219,70 L263,70"/>
+        </g>
+      </svg>
+      <span class="brand-text"><b>净屏</b><span>RHINE LAB / AD GUARD</span></span>
+    </a>
+    <nav class="nav">
+      <a href="#features">功能</a>
+      <a href="#shots">界面</a>
+      <a href="#start">安装</a>
+      <a href="#how">原理</a>
+      <a class="btn-small" href="https://github.com/NERRY3621/JingPing/releases/latest">下载 APK</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">RHINE LAB · ANALYSIS OS / AD GUARD</div>
+          <h1>让开屏广告，<br><em>停在门外。</em></h1>
+          <p class="lead">
+            不修改任何应用的安装包。无障碍自动点掉「跳过」，Root / Shizuku 直接禁用广告 Activity，
+            LSPosed 拦截广告 SDK 的摇一摇传感器。三种能力，按需组合。
+          </p>
+          <div class="cta">
+            <a class="btn btn-primary" href="https://github.com/NERRY3621/JingPing/releases/latest">
+              下载 APK <span class="arrow">↗</span>
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/NERRY3621/JingPing">
+              查看源码 <span class="arrow">↗</span>
+            </a>
+          </div>
+          <div class="meta">
+            <span class="chip">ANDROID 8.0+</span>
+            <span class="chip">NO NETWORK</span>
+            <span class="chip">ROOT / SHIZUKU</span>
+            <span class="chip">LSPOSED MODULE</span>
+          </div>
+        </div>
+        <div>
+          <div class="shot-frame">
+            <img src="screenshots/main.png" alt="净屏主界面：莱茵生命风格暖灰卡片">
+            <div class="shot-caption"><span>SYS / MAIN</span><span>v1.3.0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stats-grid">
+          <div class="stat"><b>0</b><span>网络权限 / 不上传数据</span></div>
+          <div class="stat"><b>2</b><span>App 模式 / LSPosed 模式</span></div>
+          <div class="stat"><b>3</b><span>无障碍 · Root/Shizuku · LSPosed</span></div>
+          <div class="stat"><b>12s</b><span>开屏扫描窗口</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">01 / CAPABILITIES</div>
+          <h2>不是只屏蔽一个 App</h2>
+        </div>
+        <p>通用跳过规则 + 系统级组件禁用 + 进程内传感器拦截。能单独用，也能叠着用。</p>
+      </div>
+      <div class="features">
+        <article class="feature"><span class="tag">A11Y</span><div class="idx">01</div><h3>开屏自动跳过</h3><p>识别 SplashShellActivity / HotSplashActivity 等开屏窗口，按文字或控件 ID 点「跳过」；右下角的「跳过 3」也支持。</p></article>
+        <article class="feature"><span class="tag">A11Y</span><div class="idx">02</div><h3>广告页自动返回</h3><p>纯开屏广告页找不到按钮时，自动按一次返回键。只对已知开屏广告页生效，不碰启动壳。</p></article>
+        <article class="feature"><span class="tag">A11Y</span><div class="idx">03</div><h3>摇一摇跳转拦截</h3><p>广告页把用户摇到淘宝、京东、拼多多或浏览器时，立即返回原应用。作为没有 LSPosed 时的兜底。</p></article>
+        <article class="feature"><span class="tag">ROOT</span><div class="idx">04</div><h3>深度净化</h3><p>用系统 <code>pm disable</code> 禁用广告 SDK 的 Activity，比如 B 站 HotSplashActivity。不改 APK，可随时恢复。</p></article>
+        <article class="feature"><span class="tag">LSPOSED</span><div class="idx">05</div><h3>摇一摇源头拦截</h3><p>在目标应用进程内拦截广告 SDK 的加速度传感器注册与外部跳转，让「扭一扭」拿不到数据。</p></article>
+        <article class="feature"><span class="tag">OPTIONAL</span><div class="idx">06</div><h3>后台守护</h3><p>前台服务 + 常驻通知、开机自启、进程被杀后恢复、无障碍掉线自动恢复。不开启时 App 不驻留后台。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="shots">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02 / INTERFACE</div>
+          <h2>莱茵生命终端风格</h2>
+        </div>
+        <p>暖灰纸面、墨黑字、琥珀金、细线档案卡片、档案编号与淡网格。功能仍然是净屏的。</p>
+      </div>
+      <div class="shots">
+        <figure class="shot"><img src="screenshots/main.png" alt="主界面"><figcaption class="cap"><span>MAIN / 01</span><span>STATUS</span></figcaption></figure>
+        <figure class="shot"><img src="screenshots/guide.png" alt="内置教程"><figcaption class="cap"><span>GUIDE / 02</span><span>10 STEPS</span></figcaption></figure>
+        <figure class="shot"><img src="screenshots/test.png" alt="模拟开屏测试"><figcaption class="cap"><span>TEST / 03</span><span>AUTO SKIP</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="start">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 / QUICK START</div>
+          <h2>三步开始</h2>
+        </div>
+        <p>下载安装后，App 里有带按钮的内置教程；下面是给第一次用的人看的简版。</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <h3>安装并开启无障碍</h3>
+          <p>从 Release 下载 APK，安装后打开「使用教程 → 第 1 步」。有 Root/Shizuku 可一键开启；没有就到系统无障碍页手动打开「净屏 · 开屏广告跳过」。</p>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <h3>按需做深度净化</h3>
+          <p>勾选常用 App，扫描组件，一键净化。B 站会禁用 <code>HotSplashActivity</code>，冷启动直接进首页。需要 Root 或已授权的 Shizuku。</p>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <h3>想拦摇一摇就开 LSPosed</h3>
+          <p>在 LSPosed 启用「净屏」，勾选作用域，强行停止目标 App 再打开。只使用模块时，不要开启后台守护，App 不会驻留后台。</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div>
+          <div class="kicker">BILIBILI / EXAMPLE</div>
+          <h3>B 站开屏页，一行命令就能停用</h3>
+          <p>«净屏» 的深度净化会自动执行这条命令。每台设备本地生效，不会随 APK 分发；B 站更新后重新扫描即可。</p>
+        </div>
+        <div class="codebox">pm disable --user 0<br>tv.danmaku.bili/<br>tv.danmaku.bili.splash.ad.page.HotSplashActivity</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">04 / MODES</div>
+          <h2>两种用法，不打架</h2>
+        </div>
+        <p>想开箱即用选 App 模式；不想跑后台选 LSPosed 模式。也可以两个都开。</p>
+      </div>
+      <div class="modes">
+        <article class="mode">
+          <div class="label">MODE A</div>
+          <h3>App 模式</h3>
+          <ul>
+            <li>无障碍自动点「跳过」，覆盖 App 最多</li>
+            <li>Root / Shizuku 深度净化广告 Activity</li>
+            <li>可选后台守护，开机自启、掉线自动恢复</li>
+            <li>适合「不想折腾 LSPosed」的人</li>
+          </ul>
+        </article>
+        <article class="mode">
+          <div class="label">MODE B</div>
+          <h3>LSPosed 模式</h3>
+          <ul>
+            <li>模块在目标应用进程内运行</li>
+            <li>拦截广告 SDK 的加速度传感器注册</li>
+            <li>拦截广告 SDK 启动外部购物 App / 浏览器</li>
+            <li>完全不需要让净屏常驻后台</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="two-col" style="margin-top:12px">
+        <div class="note">
+          <h3>隐私</h3>
+          <ul>
+            <li>未申请 INTERNET 权限，不联网</li>
+            <li>无障碍只读取窗口节点找「跳过」</li>
+            <li>规则、日志、配置只在本机</li>
+            <li>深度净化改的是系统组件状态，可恢复</li>
+          </ul>
+        </div>
+        <div class="note">
+          <h3>限制</h3>
+          <ul>
+            <li>没有 LSPosed 时，摇一摇只能做事后跳转拦截</li>
+            <li>Canvas / SurfaceView 绘制的跳过按钮可能识别不到</li>
+            <li>广告 12 秒后才加载可能错过窗口</li>
+            <li>卸载前请先在 App 内恢复被禁用的组件</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">05 / FAQ</div>
+          <h2>常见问题</h2>
+        </div>
+        <p>更多细节、构建方法和完整教程在 <a class="amber" href="https://github.com/NERRY3621/JingPing#readme">GitHub README</a>。</p>
+      </div>
+      <details><summary>状态全绿，但某个 App 还是不跳过？</summary><p>先确认总开关和「自动点击跳过」都开着；如果按钮是 Canvas 绘制，无障碍看不到，改用深度净化禁用广告 Activity，或启用 LSPosed 模块。</p></details>
+      <details><summary>B 站更新后开屏又回来了？</summary><p>更新可能重新启用组件。重新进「深度净化 → 扫描 → 一键净化」即可。</p></details>
+      <details><summary>LSPosed 不生效？</summary><p>确认模块已启用、作用域已勾选、目标 App 已强行停止并重开。管理器可能寄生在 com.android.shell，从通知栏进入更稳。</p></details>
+      <details><summary>需要一直让 App 挂在后台吗？</summary><p>不需要。只使用 LSPosed 模块时完全不用后台；App 模式可以选开启「后台守护」，由前台服务负责保活，不需要手动挂。</p></details>
+      <details><summary>卸载前要注意什么？</summary><p>先在「深度净化 → 恢复」里还原所有已禁用的广告 Activity，再卸载。</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand">
+          <svg viewBox="0 0 310 145" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="26">
+              <path d="M156,75 C127,48 103,15 70,15 C37,15 15,39 15,70 S38,128 70,128 C103,128 127,96 176,52"/>
+              <path d="M155,75 C182,99 208,128 240,128 C273,128 295,105 295,73 S273,15 240,15 C221,15 207,23 192,38"/>
+            </g>
+            <g fill="none" stroke="currentColor" stroke-width="15"><path d="M44,70 L94,70 M69,45 L69,95 M219,70 L263,70"/></g>
+          </svg>
+          <span class="brand-text"><b>净屏</b><span>RHINE LAB / AD GUARD</span></span>
+        </div>
+        <p style="margin-top:14px">不修改 APK 的 Android 开屏 / 摇一摇广告拦截工具。开源在 GitHub，完全本地运行。</p>
+        <div class="links" style="margin-top:12px">
+          <a href="https://github.com/NERRY3621/JingPing">GitHub</a>
+          <a href="https://github.com/NERRY3621/JingPing/releases/latest">Releases</a>
+          <a href="https://github.com/NERRY3621/JingPing#readme">README</a>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="mono" style="font-size:10px;color:var(--dim)">ANDROID 8.0+ · NO NETWORK PERMISSION</div>
+        <div class="mono" style="font-size:10px;color:var(--dim);margin-top:6px">v1.3.0 · MIT COMPONENTS</div>
+      </div>
+    </div>
+    <p class="disclaimer">
+      视觉语言参考 RhineLabUI（MIT，LBEILC）；Rhine Lab / 明日方舟相关名称与标志归鹰角网络（Hypergryph）所有。
+      本项目为非官方、非商业粉丝作品，与鹰角、哔哩哔哩、小米均无关联。仅供学习与个人使用；
+      深度净化可能影响应用内的广告/奖励功能，使用风险自负。
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
