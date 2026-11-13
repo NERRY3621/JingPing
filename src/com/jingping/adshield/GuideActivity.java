@@ -27,6 +27,8 @@ import com.jingping.adshield.ui.AppPicker;
 /** 内置图文教程 + 一键操作。 */
 public class GuideActivity extends Activity {
 
+    private static final String REPO_URL = "https://github.com/NERRY3621/JingPing";
+
     private LinearLayout sections;
     private TextView tvStatus;
 
@@ -110,6 +112,17 @@ public class GuideActivity extends Activity {
                 + "改用深度净化禁用广告 Activity，或启用 LSPosed 模块。\n"
                 + "• 深度净化扫描超时：系统包管理器繁忙，稍后重试。\n"
                 + "• LSPosed 不生效：确认模块已启用、作用域已勾选、目标 App 已强行停止并重开。", null, null);
+
+        addSection("★", "如果它帮到你", "净屏不收费、不联网、没有广告。"
+                + "如果它帮你少看了几次开屏，去 GitHub 点一个 Star，能让更多人看到这个项目。\n\n"
+                + "Star 是唯一能让它被更多人发现的“投票”，谢谢。", "去 GitHub 点 Star", v -> openUrl(REPO_URL));
+    }
+
+    private void openUrl(String url) {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url)));
+        } catch (Throwable ignored) {
+        }
     }
 
     private void addSection(String number, String title, String body,

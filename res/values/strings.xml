@@ -3,7 +3,7 @@
     <string name="app_name">净屏</string>
     <string name="app_subtitle">开屏 · 摇一摇广告拦截</string>
     <string name="brand_overline">RHINE LAB / AD GUARD</string>
-    <string name="version_label">v1.3.0</string>
+    <string name="version_label">v1.3.1</string>
 
     <string name="section_status">01  运行状态</string>
     <string name="guide_entry_title">使用教程</string>

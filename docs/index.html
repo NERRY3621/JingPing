@@ -11,6 +11,8 @@
 <meta property="og:url" content="https://nerry3621.github.io/JingPing/">
 <meta property="og:image" content="https://nerry3621.github.io/JingPing/screenshots/main.png">
 <link rel="icon" href="screenshots/main.png">
+<link rel="canonical" href="https://nerry3621.github.io/JingPing/">
+<meta name="keywords" content="Android,开屏广告,摇一摇广告,去广告,LSPosed,Shizuku,哔哩哔哩,Bilibili,adblock">
 <style>
   :root{
     --paper:#EAE5E1;
@@ -183,6 +185,15 @@
   .foot .links a:hover{color:var(--ink)}
   .disclaimer{font-size:10px;color:var(--dim);line-height:1.8;margin-top:18px;max-width:900px}
 
+  .btn-star{border-color:var(--amber);color:var(--amber)}
+  .btn-star:hover{background:var(--amber);color:var(--paper)}
+  .demo-pair{display:grid;grid-template-columns:1fr 34px 1fr;gap:12px;align-items:center}
+  .demo-card{margin:0;background:#171713;border:1px solid var(--ink);padding:8px}
+  .demo-card img{width:100%;height:520px;object-fit:cover;object-position:center bottom;border:1px solid #4A463C}
+  .demo-card figcaption{display:flex;justify-content:space-between;gap:10px;padding:9px 2px 2px;color:#C9C2B4;font-size:10px;font-family:monospace;letter-spacing:.06em}
+  .demo-card figcaption b{color:#EAE5E1;font-weight:500}
+  .demo-arrow{text-align:center;color:var(--amber);font-family:monospace;font-size:22px}
+
   @media (max-width:960px){
     .hero-grid{grid-template-columns:1fr;gap:34px}
     .shot-frame{max-width:520px}
@@ -194,6 +205,9 @@
     .step{border-left:0;border-top:1px solid var(--line)}
     .step:first-child{border-top:0}
     .callout{grid-template-columns:1fr}
+    .demo-pair{grid-template-columns:1fr}
+    .demo-arrow{transform:rotate(90deg);padding:2px 0}
+    .demo-card img{height:460px}
   }
   @media (max-width:640px){
     .wrap{padding:0 18px}
@@ -243,6 +257,8 @@
       <a href="#shots">界面</a>
       <a href="#start">安装</a>
       <a href="#how">原理</a>
+      <a href="https://github.com/NERRY3621/JingPing/blob/main/README.en.md">EN</a>
+      <a class="btn-small btn-star" href="https://github.com/NERRY3621/JingPing/stargazers">★ Star</a>
       <a class="btn-small" href="https://github.com/NERRY3621/JingPing/releases/latest">下载 APK</a>
     </nav>
   </div>
@@ -266,6 +282,9 @@
             <a class="btn btn-ghost" href="https://github.com/NERRY3621/JingPing">
               查看源码 <span class="arrow">↗</span>
             </a>
+            <a class="btn btn-ghost" href="https://github.com/NERRY3621/JingPing/stargazers">
+              ★ Star
+            </a>
           </div>
           <div class="meta">
             <span class="chip">ANDROID 8.0+</span>
@@ -277,7 +296,7 @@
         <div>
           <div class="shot-frame">
             <img src="screenshots/main.png" alt="净屏主界面：莱茵生命风格暖灰卡片">
-            <div class="shot-caption"><span>SYS / MAIN</span><span>v1.3.0</span></div>
+            <div class="shot-caption"><span>SYS / MAIN</span><span>v1.3.1</span></div>
           </div>
         </div>
       </div>
@@ -326,6 +345,29 @@
         <figure class="shot"><img src="screenshots/main.png" alt="主界面"><figcaption class="cap"><span>MAIN / 01</span><span>STATUS</span></figcaption></figure>
         <figure class="shot"><img src="screenshots/guide.png" alt="内置教程"><figcaption class="cap"><span>GUIDE / 02</span><span>10 STEPS</span></figcaption></figure>
         <figure class="shot"><img src="screenshots/test.png" alt="模拟开屏测试"><figcaption class="cap"><span>TEST / 03</span><span>AUTO SKIP</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02.5 / DEMO</div>
+          <h2>自动点击前后</h2>
+        </div>
+        <p>同一台设备上的实际状态：广告页出现「跳过 4」，无障碍识别并点击，页面变成「已跳过」。</p>
+      </div>
+      <div class="demo-pair">
+        <figure class="demo-card">
+          <img src="screenshots/demo-before.png" alt="广告出现，跳过按钮">
+          <figcaption><span>BEFORE</span><b>广告出现 · 跳过 4</b></figcaption>
+        </figure>
+        <div class="demo-arrow">→</div>
+        <figure class="demo-card">
+          <img src="screenshots/demo-after.png" alt="自动点击后显示已跳过">
+          <figcaption><span>AFTER</span><b>自动点击 · 已跳过</b></figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -456,6 +498,7 @@
           <span class="brand-text"><b>净屏</b><span>RHINE LAB / AD GUARD</span></span>
         </div>
         <p style="margin-top:14px">不修改 APK 的 Android 开屏 / 摇一摇广告拦截工具。开源在 GitHub，完全本地运行。</p>
+        <p style="margin-top:10px;font-size:12px">如果它帮到你，<a class="amber" href="https://github.com/NERRY3621/JingPing/stargazers">去 GitHub 点个 Star</a>。</p>
         <div class="links" style="margin-top:12px">
           <a href="https://github.com/NERRY3621/JingPing">GitHub</a>
           <a href="https://github.com/NERRY3621/JingPing/releases/latest">Releases</a>
@@ -464,7 +507,7 @@
       </div>
       <div style="text-align:right">
         <div class="mono" style="font-size:10px;color:var(--dim)">ANDROID 8.0+ · NO NETWORK PERMISSION</div>
-        <div class="mono" style="font-size:10px;color:var(--dim);margin-top:6px">v1.3.0 · MIT COMPONENTS</div>
+        <div class="mono" style="font-size:10px;color:var(--dim);margin-top:6px">v1.3.1 · MIT COMPONENTS</div>
       </div>
     </div>
     <p class="disclaimer">

@@ -14,7 +14,7 @@ D8_JAR="${D8_JAR:-/data/data/com.dsharnessmobile.shell/files/usr/share/java/d8.j
 APKSIGNER_JAR="${APKSIGNER_JAR:-/data/data/com.dsharnessmobile.shell/files/usr/share/java/apksigner.jar}"
 AAPT="${AAPT:-/data/data/com.dsharnessmobile.shell/files/usr/bin/aapt}"
 ZIPALIGN="${ZIPALIGN:-/data/data/com.dsharnessmobile.shell/files/usr/bin/zipalign}"
-VERSION_NAME="1.3.0"
+VERSION_NAME="1.3.1"
 OUT="$BASE/dist/JingPing-$VERSION_NAME.apk"
 
 for f in "$SDK_JAR" "$D8_JAR" "$APKSIGNER_JAR" "$AAPT" "$ZIPALIGN" "$JAVAC"; do

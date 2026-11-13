@@ -11,7 +11,7 @@
 [![Stars](https://img.shields.io/github/stars/NERRY3621/JingPing?style=flat-square&color=A67D48)](https://github.com/NERRY3621/JingPing/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/NERRY3621/JingPing?style=flat-square&color=6F6A5E)](https://github.com/NERRY3621/JingPing/commits/main)
 
-[下载 APK](https://github.com/NERRY3621/JingPing/releases/latest) · [使用教程](#-快速开始) · [工作原理](#-工作原理) · [常见问题](#-常见问题) · [介绍页](https://nerry3621.github.io/JingPing/)
+[下载 APK](https://github.com/NERRY3621/JingPing/releases/latest) · [使用教程](#-快速开始) · [工作原理](#-工作原理) · [常见问题](#-常见问题) · [介绍页](https://nerry3621.github.io/JingPing/) · [English](README.en.md)
 
 </div>
 
@@ -20,6 +20,8 @@
 </p>
 
 > **一句话**：用无障碍点掉开屏「跳过」，用 Root/Shizuku 直接禁用广告 Activity，用 LSPosed 拦截广告 SDK 的摇一摇传感器。三种能力可以单独用，也可以组合。
+
+> ⭐ **如果净屏帮你少看了几次开屏，去 GitHub 点个 Star**，让更多人看到这个项目。免费、无广告、不联网。
 
 ---
 
@@ -63,16 +65,24 @@
 | --- | --- |
 | ![测试页](docs/screenshots/test.png) | 暖灰纸面 / 墨黑字 / 琥珀金 / 细线档案卡片 |
 
+### 自动跳过前后
+
+| 广告出现 · 跳过 4 | 无障碍自动点击后 · 已跳过 |
+| --- | --- |
+| ![自动点击前](docs/screenshots/demo-before.png) | ![自动点击后](docs/screenshots/demo-after.png) |
+
+> 同一台设备上的实际状态：广告页出现「跳过 4」，约 1 秒后变成「已跳过」。
+
 ---
 
 ## 快速开始
 
 ### 1. 安装
 
-从 [Releases](https://github.com/NERRY3621/JingPing/releases/latest) 下载 `JingPing-1.3.0.apk`，或：
+从 [Releases](https://github.com/NERRY3621/JingPing/releases/latest) 下载 `JingPing-1.3.1.apk`，或：
 
 ```bash
-adb install -r JingPing-1.3.0.apk
+adb install -r JingPing-1.3.1.apk
 ```
 
 > Release 里的 APK 使用本地测试签名。自己构建会生成新的签名；长期升级请固定使用同一个 keystore。
@@ -176,7 +186,7 @@ LSPosed
 git clone https://github.com/NERRY3621/JingPing.git
 cd JingPing
 bash build.sh
-# 输出：dist/JingPing-1.3.0.apk
+# 输出：dist/JingPing-1.3.1.apk
 ```
 
 可通过环境变量覆盖工具路径：
@@ -256,6 +266,13 @@ B 站更新可能重新启用组件。重新进「深度净化 → 扫描 → �
 
 先在「深度净化 → 恢复」里还原所有已禁用的广告 Activity，再卸载。否则组件会保持禁用状态。
 </details>
+
+---
+
+## ⭐ Star
+
+如果这个项目帮到你，去 [GitHub 点一个 Star](https://github.com/NERRY3621/JingPing/stargazers)。
+这是让一个没有推广预算的小工具被更多人看到的唯一方式。
 
 ---
 

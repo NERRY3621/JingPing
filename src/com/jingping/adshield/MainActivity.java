@@ -41,6 +41,7 @@ import java.util.Set;
 public class MainActivity extends Activity {
 
     public static final String EXTRA_SCROLL_TO_CLEAN = "scroll_to_clean";
+    public static final String REPO_URL = "https://github.com/NERRY3621/JingPing";
 
     private Switch swEnabled;
     private Switch swGuard;
@@ -745,7 +746,7 @@ public class MainActivity extends Activity {
     private void showAbout() {
         new AlertDialog.Builder(this)
                 .setTitle("关于净屏")
-                .setMessage("净屏 1.3.0\n\n"
+                .setMessage("净屏 1.3.1\n\n"
                         + "工作原理：\n"
                         + "• 无障碍服务在前台窗口变化时查找「跳过 / skip」控件并点击；\n"
                         + "• Root / Shizuku 用于免手动开启无障碍，以及禁用所选应用内的广告 SDK Activity；\n"
@@ -757,7 +758,15 @@ public class MainActivity extends Activity {
                         + "本应用不申请网络权限，不上传任何数据。\n\n"
                         + "视觉语言参考 RhineLabUI（MIT，LBEILC）；Rhine Lab / 明日方舟相关权利归鹰角网络，本项目为非官方粉丝作品。")
                 .setPositiveButton(R.string.dialog_ok, null)
+                .setNeutralButton("去 GitHub 点 Star", (d, w) -> openUrl(REPO_URL))
                 .show();
+    }
+
+    private void openUrl(String url) {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (Throwable ignored) {
+        }
     }
 
     private void toast(String s) {
